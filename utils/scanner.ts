@@ -136,55 +136,51 @@ function checkPort(
     let dataBuffer = '';
     let connected = false;
     let osInfo: OSInfo | undefined = undefined;
-    try {
-      const socket = new TcpSocket.Socket();
-      socket.setTimeout(timeout);
+    const socket = new TcpSocket.Socket();
+    socket.setTimeout(timeout);
 
-      socket.once('connect', () => {
-        console.log(`server ${host}:${port} online!`);
-        connected = true;
+    socket.once('connect', () => {
+      console.log(`server ${host}:${port} online!`);
+      connected = true;
 
-        if (port === 80 || port === 443) {
-          socket.write('HEAD / HTTP/1.0\r\n\r\n');
-        }
+      if (port === 80 || port === 443) {
+        socket.write('HEAD / HTTP/1.0\r\n\r\n');
+      }
 
-        //give time for banner grabbing
-        setTimeout(() => {
-          socket?.destroy();
-        }, 200);
-      });
+      //give time for banner grabbing
+      setTimeout(() => {
+        socket.destroy();
+      }, 200);
+    });
 
-      socket.on('data', (data) => {
-        dataBuffer += data.toString();
+    socket.on('data', (data) => {
+      dataBuffer += data.toString();
 
-        if (dataBuffer.length > 0) {
-          console.log(dataBuffer);
-          osInfo = guessOSFromBanner(dataBuffer);
-        }
+      if (dataBuffer.length > 0) {
+        console.log(dataBuffer);
+        osInfo = guessOSFromBanner(dataBuffer);
+      }
 
-        //banner can be in parts
-        setTimeout(() => {
-          socket?.destroy();
-        }, 100);
-      });
+      //banner can be in parts
+      setTimeout(() => {
+        socket.destroy();
+      }, 100);
+    });
 
-      socket.once('error', (error) => {
-        console.log(`Connection error: ${host}:${port} — ${error.message}`);
-        socket?.destroy();
-      });
+    socket.once('error', (error) => {
+      // console.log(`Connection error: ${host}:${port} — ${error.message}`);
+      socket.destroy();
+    });
 
-      socket.once('close', () => {
-        resolve({ connected, osInfo });
-      });
+    socket.once('close', () => {
+      resolve({ connected, osInfo });
+    });
 
-      socket.once('timeout', () => {
-        socket?.destroy();
-      });
+    socket.once('timeout', () => {
+      socket.destroy();
+    });
 
-      socket.connect({ port, host });
-    } catch (e) {
-      console.log('@@@checkPort error: ', e);
-    }
+    socket.connect({ port, host });
   });
 }
 
@@ -201,10 +197,6 @@ async function scanNetwork(subnet: string, start = 1, end = 255) {
       })
         .then((response) => {
           if (response.ok) {
-            // const check = new Promise<void>((resolve) => {
-            //   checkPort(host, 80)
-            //     .then((response) => {
-            //       if (response.connected) {
             console.log(`Active IP found: ${host}`);
             activeHosts.push(host);
             resolve();

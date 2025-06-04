@@ -20,11 +20,11 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.pereladovw.networkscanner"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    },
-    "plugins": ["react-native-tcp-socket"]
+    }
   }
 }
