@@ -18,6 +18,7 @@ const KNOWN_SERVICES: LocalService[] = [
   { name: 'MySQL', port: 3306 },
 ];
 
+// getting os from response banner (if possible)
 const guessOSFromBanner = (banner: string): OSInfo | undefined => {
   if (!banner) return undefined;
 
@@ -75,6 +76,7 @@ const guessOSFromBanner = (banner: string): OSInfo | undefined => {
   return undefined;
 };
 
+// returns array of scanning ports. Returns array of KNOWN_PORTS ports if portsRange wasn't provided
 function getPorts(portsRange?: PortsRange) {
   const ports = portsRange
     ? Array.from<number, LocalService>(
