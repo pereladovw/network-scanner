@@ -1,40 +1,5 @@
 ## Overview
 
-The application has two modes:
-
-1. Scans for http hosts then checks available services. It is fast search, because of simetenuesly tcp connections limitation.
-2. Searches services by each IP in subnet for provided ports.
-
-The app has a predifined list of well known services.
-The app also allow to search by ports range.
-
-The file utils/scanner.ts contains search logic.
-It contains:
-
-1. KNOWN_SERVICES - List of known services
-2. guessOSFromBanner - trying to get OS from response banner (if possible)
-3. fetchWithTimeout - simple fetch request with timeout. Using for searching with timeout for available hosts.
-4. checkPort - cheks is a service available on a provided host and port
-5. scanNetwork - mehtod for fast host scanning (by 80 port)
-6. fastScan - scans based on opened port 80, then checks live services by tcp conncetions
-7. portsScan - slow services searching by checking IPs and ports in range.
-
-Founded hosts and services updates during search by calling a callback
-
-UI was made minimalistic because there wasn't any requarments.
-
-Because it wasn't nessessary no state managements were used.
-
-## Technologies Used
-
-- **expo-network**: To get network status and an IP address.
-- **react-native-tcp-socket**: To find available services.
-
-Android build is in folder builds.
-I can't provide IPA for ios because right now I don't have paid develoepr account.
-
-## Overview
-
 The application has two scanning modes:
 
 1. **Fast HTTP Host Scan**
