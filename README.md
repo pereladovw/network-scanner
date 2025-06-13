@@ -38,4 +38,3 @@ Since it wasn’t necessary, no state management libraries were used.
 - **react-native-tcp-socket** — to find available services via TCP.
 
 The Android build is located in the `builds` folder.
-I cannot provide an iOS IPA file at this time because I don’t have a paid developer account.
